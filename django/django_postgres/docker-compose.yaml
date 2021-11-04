@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  db:
+    container_name: database_name
+    image: postgres:13.3
+    restart: always
+    volumes:
+      - ./postgres_data:/data/postgres
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+  web:
+    container_name: webservice_name
+    build: .
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/src
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    restart: always
