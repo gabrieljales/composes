@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  mysql:
+    image: mariadb
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: dbname
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mariadb_data:/var/lib/mysql
+    networks:
+      - mysql-compose-network
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - mysql-compose-network
+
+networks:
+  mysql-compose-network:
+    driver: bridge
