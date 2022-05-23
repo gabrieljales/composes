@@ -23,6 +23,7 @@ services:
       PGADMIN_LISTEN_PORT: 80
     ports:
       - 8080:80
+    user: root
     volumes:
         - ./pgadmin-data:/var/lib/pgadmin
     links:
